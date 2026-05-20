@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{TITLE}} · ai-frontier-watch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- JetBrains Mono + IBM Plex Sans for hierarchy contrast -->
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=IBM+Plex+Sans:wght@500;600&display=swap" rel="stylesheet">
+<style>
+/* === TERMINAL THEME — Tokyo Night / vim color scheme inspired === */
+
+:root {
+  --bg: #0D1117;
+  --bg-alt: #161B22;
+  --bg-panel: #1A1F2A;
+  --fg: #C0CAF5;
+  --fg-muted: #565F89;
+  --fg-bright: #E2E8F0;
+  --green: #9ECE6A;
+  --amber: #E0AF68;
+  --cyan: #7DCFFF;
+  --red: #F7768E;
+  --magenta: #BB9AF7;
+  --rule: #30363D;
+  --mono: 'JetBrains Mono', 'IBM Plex Mono', 'Courier New', monospace;
+  --sans: 'IBM Plex Sans', system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--mono);
+  font-size: 14px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  padding: 24px 16px 64px;
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 880px;
+  margin: 0 auto;
+}
+
+/* === Status bar === */
+.statusbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 16px;
+  background: var(--bg-alt);
+  border: 1px solid var(--rule);
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.statusbar .seg {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.statusbar .seg .label {
+  color: var(--fg-muted);
+}
+
+.statusbar .seg .val {
+  color: var(--cyan);
+  font-weight: 500;
+}
+
+.statusbar .dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: var(--green);
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* === ASCII Header === */
+.ascii-header {
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1.2;
+  color: var(--magenta);
+  margin-bottom: 24px;
+  white-space: pre;
+  overflow-x: auto;
+}
+
+/* === Prompt block === */
+.prompt {
+  font-family: var(--mono);
+  color: var(--green);
+  margin-bottom: 8px;
+}
+
+.prompt::before {
+  content: '$ ';
+  color: var(--cyan);
+}
+
+/* === Title === */
+.title-block {
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  padding: 32px 0;
+  margin: 32px 0 48px;
+}
+
+h1.title {
+  font-family: var(--sans);
+  font-size: 42px;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--fg-bright);
+  margin-bottom: 16px;
+}
+
+.subtitle {
+  font-family: var(--mono);
+  font-size: 14px;
+  color: var(--fg-muted);
+}
+
+.subtitle .accent { color: var(--amber); }
+
+/* === Section === */
+section {
+  margin-bottom: 56px;
+}
+
+.section-header {
+  font-family: var(--mono);
+  margin-bottom: 24px;
+  color: var(--cyan);
+}
+
+.section-header .marker {
+  color: var(--amber);
+  margin-right: 8px;
+}
+
+.section-header h2 {
+  display: inline;
+  font-family: var(--sans);
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--fg-bright);
+  letter-spacing: -0.01em;
+}
+
+.section-divider {
+  font-family: var(--mono);
+  color: var(--rule);
+  font-size: 13px;
+  margin-bottom: 24px;
+  user-select: none;
+  letter-spacing: 0.1em;
+}
+
+/* === TL;DR block === */
+.tldr {
+  background: var(--bg-alt);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--green);
+  padding: 20px 24px;
+  margin-bottom: 40px;
+  font-family: var(--mono);
+}
+
+.tldr .label {
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  color: var(--green);
+  margin-bottom: 12px;
+}
+
+.tldr ul {
+  list-style: none;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.tldr li {
+  padding-left: 20px;
+  position: relative;
+  margin-bottom: 6px;
+}
+
+.tldr li::before {
+  content: '▸';
+  position: absolute;
+  left: 0;
+  color: var(--green);
+}
+
+/* === Item === */
+.item {
+  background: var(--bg-alt);
+  border: 1px solid var(--rule);
+  margin-bottom: 24px;
+  padding: 20px 24px;
+  position: relative;
+}
+
+.item.critical { border-left: 3px solid var(--red); }
+.item.high     { border-left: 3px solid var(--amber); }
+.item.medium   { border-left: 3px solid var(--cyan); }
+.item.low      { border-left: 3px solid var(--fg-muted); }
+
+.item-tags {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  margin-bottom: 12px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.item-tags .tag {
+  padding: 2px 8px;
+  background: var(--bg);
+  border: 1px solid var(--rule);
+  color: var(--fg-muted);
+}
+
+.item-tags .tag.cat { color: var(--cyan); border-color: var(--cyan); }
+.item-tags .tag.crit { color: var(--red); border-color: var(--red); background: rgba(247, 118, 142, 0.1); }
+.item-tags .tag.high { color: var(--amber); border-color: var(--amber); background: rgba(224, 175, 104, 0.1); }
+.item-tags .tag.med  { color: var(--cyan); border-color: var(--cyan); background: rgba(125, 207, 255, 0.1); }
+
+.item h3 {
+  font-family: var(--sans);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--fg-bright);
+  margin-bottom: 12px;
+  line-height: 1.35;
+}
+
+.item-meta {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--fg-muted);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.item-meta .label { color: var(--magenta); }
+.item-meta .val { color: var(--fg); }
+
+.item p {
+  margin-bottom: 12px;
+  font-family: var(--mono);
+  color: var(--fg);
+}
+
+.item .scores {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--amber);
+  display: inline-block;
+  padding: 4px 10px;
+  background: var(--bg);
+  border: 1px dashed var(--rule);
+  margin-top: 8px;
+}
+
+/* === Deadline alert box === */
+.deadline-alert {
+  font-family: var(--mono);
+  background: rgba(247, 118, 142, 0.08);
+  border: 1px solid var(--red);
+  padding: 10px 14px;
+  margin: 12px 0;
+  font-size: 13px;
+}
+
+.deadline-alert::before {
+  content: '⚠ DEADLINE';
+  color: var(--red);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  margin-right: 12px;
+}
+
+.deadline-alert .date {
+  color: var(--amber);
+  font-weight: 500;
+}
+
+/* === Action === */
+.action {
+  font-family: var(--mono);
+  background: var(--bg);
+  padding: 10px 14px;
+  margin-top: 12px;
+  border-left: 2px solid var(--green);
+  font-size: 13px;
+}
+
+.action::before {
+  content: '▶ ACTION ';
+  color: var(--green);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  margin-right: 8px;
+}
+
+.action .role {
+  color: var(--cyan);
+  font-weight: 500;
+}
+
+/* === Action table (mono style) === */
+.action-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--mono);
+  font-size: 13px;
+  margin-top: 24px;
+  background: var(--bg-alt);
+}
+
+.action-table th, .action-table td {
+  text-align: left;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--rule);
+  vertical-align: top;
+}
+
+.action-table th {
+  background: var(--bg);
+  color: var(--magenta);
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-bottom: 2px solid var(--magenta);
+}
+
+.action-table td .role { color: var(--cyan); }
+.action-table td .deadline { color: var(--amber); font-variant-numeric: tabular-nums; }
+.action-table td .priority-crit { color: var(--red); }
+.action-table td .priority-high { color: var(--amber); }
+.action-table td .priority-med { color: var(--cyan); }
+
+/* === Links === */
+a {
+  color: var(--cyan);
+  text-decoration: none;
+  border-bottom: 1px dashed var(--cyan);
+}
+
+a:hover {
+  background: rgba(125, 207, 255, 0.1);
+  border-bottom-style: solid;
+}
+
+/* === Cursor === */
+.cursor {
+  display: inline-block;
+  width: 8px;
+  height: 16px;
+  background: var(--green);
+  margin-left: 4px;
+  vertical-align: middle;
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  50.01%, 100% { opacity: 0; }
+}
+
+/* === Footer === */
+.endmark {
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--fg-muted);
+  margin-top: 64px;
+  padding-top: 24px;
+  border-top: 1px solid var(--rule);
+}
+
+.endmark .glow { color: var(--magenta); }
+
+/* === Responsive === */
+@media (max-width: 640px) {
+  body { padding: 16px 12px 40px; font-size: 13px; }
+  h1.title { font-size: 30px; }
+  .item { padding: 16px; }
+  .ascii-header { font-size: 9px; }
+  .statusbar { font-size: 11px; }
+  .section-header h2 { font-size: 18px; }
+}
+
+/* === Print (force light for paper) === */
+@media print {
+  body { background: white !important; color: black !important; font-size: 11pt; padding: 24pt; }
+  .no-print, .cursor, .statusbar .dot { display: none !important; }
+  .item, .tldr, .statusbar, .action, .deadline-alert, .action-table th, .action-table td {
+    background: white !important;
+    color: black !important;
+    border-color: #999 !important;
+  }
+  .item.critical { border-left: 3pt solid black !important; }
+  a { color: black; }
+  h1.title, .section-header h2, .item h3 { color: black !important; page-break-after: avoid; }
+  .ascii-header { color: #333 !important; }
+  .item, .action-table { page-break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Status bar -->
+  <div class="statusbar">
+    <div class="seg"><span class="dot"></span><span class="label">SESSION</span><span class="val">active</span></div>
+    <div class="seg"><span class="label">DATE</span><span class="val">{{DATE_ISO}}</span></div>
+    <div class="seg"><span class="label">TZ</span><span class="val">ICT (UTC+7)</span></div>
+    <div class="seg"><span class="label">MODE</span><span class="val">{{BRIEF_MODE}}</span></div>
+  </div>
+
+  <!-- ASCII brand header -->
+  <pre class="ascii-header">
+   ╔══════════════════════════════════════════════════════════════╗
+   ║   A I   F R O N T I E R   W A T C H                          ║
+   ║   ────────────────────────────────                            ║
+   ║   biên giới AI · daily intel for builders                    ║
+   ╚══════════════════════════════════════════════════════════════╝</pre>
+
+  <!-- Command prompt -->
+  <div class="prompt">brief --mode={{BRIEF_MODE}} --date={{DATE_ISO}}</div>
+
+  <!-- Title block -->
+  <div class="title-block">
+    <h1 class="title">{{TITLE}}</h1>
+    <div class="subtitle">
+      <span class="accent">{{ITEMS_COUNT}}</span> items ·
+      <span class="accent">{{PAPERS_COUNT}}</span> papers ·
+      <span class="accent">{{CRITICAL_COUNT}}</span> critical ·
+      window: <span class="accent">{{TIME_WINDOW}}</span>
+    </div>
+  </div>
+
+  <!-- TL;DR -->
+  <div class="tldr">
+    <div class="label">// TL;DR — top signals</div>
+    <ul>
+      {{TLDR_BULLETS}}
+    </ul>
+  </div>
+
+  <!-- Sections (repeat per category) -->
+  <section>
+    <div class="section-header">
+      <span class="marker">[01]</span>
+      <h2>{{SECTION_TITLE}}</h2>
+    </div>
+    <div class="section-divider">════════════════════════════════════════════════════</div>
+
+    {{SECTION_CONTENT}}
+
+    <!-- Example item structure for skill to follow:
+    <div class="item critical">
+      <div class="item-tags">
+        <span class="tag crit">CRITICAL</span>
+        <span class="tag cat">MODEL_RELEASE</span>
+        <span class="tag">tier_1</span>
+      </div>
+      <h3>{{ITEM_TITLE}}</h3>
+      <div class="item-meta">
+        <span><span class="label">src:</span> <span class="val">openai.com/news</span></span>
+        <span><span class="label">date:</span> <span class="val">2026-04-23</span></span>
+        <span><span class="label">conf:</span> <span class="val">5/5</span></span>
+      </div>
+      <p>{{SUMMARY}}</p>
+      <div class="deadline-alert">
+        <span class="date">2026-08-02</span> · 74 days from now · EU AI Act high-risk enforcement
+      </div>
+      <p><strong style="color: var(--magenta);">Why it matters:</strong> {{WHY}}</p>
+      <div class="action">
+        <span class="role">{{ROLE}}</span> — {{ACTION_TEXT}}
+      </div>
+      <div class="scores">R5 N4 I5 A5 C5</div>
+    </div>
+    -->
+  </section>
+
+  <!-- Action consolidation -->
+  <section>
+    <div class="section-header">
+      <span class="marker">[99]</span>
+      <h2>Action items, consolidated</h2>
+    </div>
+    <div class="section-divider">════════════════════════════════════════════════════</div>
+
+    <table class="action-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Action</th>
+          <th>Role</th>
+          <th>Deadline</th>
+          <th>Pri</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{ACTION_TABLE_ROWS}}
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Endmark -->
+  <div class="endmark">
+    <span class="glow">[ EOF ]</span> · ai-frontier-watch v2 · {{TIMESTAMP}}<span class="cursor"></span>
+  </div>
+
+</div>
+</body>
+</html>

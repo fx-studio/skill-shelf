@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{TITLE}} — AI Frontier Watch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- IBM Plex Sans + Source Serif 4 for minimal accent. NOT using Inter as primary. -->
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+/* === SOBER THEME — Anthropic blog / government white paper inspired === */
+
+:root {
+  --bg: #FFFFFF;
+  --bg-alt: #FAFAFA;
+  --bg-accent: #F5F2EE;
+  --text: #0A0A0A;
+  --text-muted: #525252;
+  --text-faint: #A3A3A3;
+  --rule: #E5E5E5;
+  --rule-strong: #1A1A1A;
+  --accent: #1B4332;          /* forest green */
+  --accent-soft: #D7E4DC;
+  --accent-text: #143028;
+  --critical: #7D1935;        /* burgundy for critical only */
+
+  --sans: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+  --serif: 'Source Serif 4', Georgia, serif;
+  --mono: 'IBM Plex Mono', monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.7;
+  font-feature-settings: 'kern', 'liga', 'tnum';
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  padding: 80px 24px 120px;
+}
+
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+/* === Brand line === */
+.brand {
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 80px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--rule);
+}
+
+.brand .brand-num {
+  color: var(--text-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+/* === Document identifier (white paper style) === */
+.doc-id {
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  margin-bottom: 24px;
+  text-transform: uppercase;
+}
+
+/* === Title === */
+h1.title {
+  font-family: var(--sans);
+  font-size: 52px;
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  color: var(--text);
+  margin-bottom: 32px;
+  max-width: 18ch;
+}
+
+.dek {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 22px;
+  line-height: 1.5;
+  color: var(--text-muted);
+  margin-bottom: 64px;
+  max-width: 30ch;
+}
+
+/* === Metadata strip === */
+.meta-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 24px;
+  padding: 24px 0;
+  border-top: 1px solid var(--rule-strong);
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 64px;
+}
+
+.meta-strip .cell .label {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-bottom: 6px;
+}
+
+.meta-strip .cell .val {
+  font-family: var(--sans);
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+/* === Hero stat (focal point) === */
+.hero-stat {
+  text-align: left;
+  margin: 64px 0;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.hero-stat .number {
+  font-family: var(--sans);
+  font-size: 96px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+  margin-bottom: 8px;
+}
+
+.hero-stat .number-suffix {
+  font-size: 0.4em;
+  color: var(--text-muted);
+  font-weight: 500;
+  margin-left: 4px;
+}
+
+.hero-stat .number-label {
+  font-family: var(--sans);
+  font-size: 16px;
+  color: var(--text-muted);
+  max-width: 36ch;
+}
+
+/* === Executive summary === */
+.exec-summary {
+  background: var(--bg-accent);
+  padding: 32px 36px;
+  margin-bottom: 64px;
+}
+
+.exec-summary h2 {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 20px;
+}
+
+.exec-summary ol {
+  padding-left: 0;
+  list-style: none;
+  counter-reset: bullet;
+}
+
+.exec-summary li {
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.65;
+  padding: 10px 0 10px 32px;
+  position: relative;
+  counter-increment: bullet;
+  color: var(--text);
+}
+
+.exec-summary li::before {
+  content: counter(bullet, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: 13px;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--accent);
+  font-weight: 500;
+}
+
+/* === Section === */
+section {
+  margin-bottom: 80px;
+}
+
+.section-header {
+  margin-bottom: 40px;
+}
+
+.section-header .num {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--text-faint);
+  font-variant-numeric: tabular-nums;
+  display: block;
+  margin-bottom: 8px;
+  letter-spacing: 0.05em;
+}
+
+h2.section-title {
+  font-family: var(--sans);
+  font-size: 32px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  line-height: 1.2;
+}
+
+.section-rule {
+  height: 1px;
+  background: var(--rule);
+  margin: 16px 0 32px;
+}
+
+/* === Body === */
+p {
+  margin-bottom: 22px;
+  max-width: 60ch;
+}
+
+/* === Item === */
+.item {
+  margin-bottom: 48px;
+  padding-left: 24px;
+  border-left: 2px solid var(--rule);
+}
+
+.item.critical {
+  border-left-color: var(--critical);
+}
+
+.item.critical .priority-label {
+  color: var(--critical);
+}
+
+.item.high {
+  border-left-color: var(--accent);
+}
+
+.item.high .priority-label {
+  color: var(--accent);
+}
+
+.priority-label {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.item h3 {
+  font-family: var(--sans);
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--text);
+  margin-bottom: 16px;
+  max-width: 30ch;
+}
+
+.item-meta {
+  font-family: var(--sans);
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+  font-variant-numeric: tabular-nums;
+}
+
+.item-meta .sep {
+  margin: 0 8px;
+  color: var(--text-faint);
+}
+
+/* === Deadline (restrained) === */
+.deadline {
+  font-family: var(--sans);
+  font-size: 14px;
+  padding: 12px 0;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  margin: 16px 0;
+  color: var(--text);
+}
+
+.deadline .label {
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-size: 11px;
+  color: var(--critical);
+  margin-right: 12px;
+}
+
+.deadline .days {
+  font-variant-numeric: tabular-nums;
+  color: var(--text-muted);
+}
+
+/* === Action === */
+.action {
+  font-family: var(--sans);
+  font-size: 15px;
+  padding: 16px 0;
+  margin-top: 16px;
+  color: var(--text);
+}
+
+.action .label {
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  display: block;
+  margin-bottom: 6px;
+}
+
+.action .role {
+  font-weight: 600;
+  color: var(--accent-text);
+}
+
+/* === Comparison table (clean) === */
+.comparison-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--sans);
+  font-size: 14px;
+  margin: 24px 0;
+}
+
+.comparison-table th {
+  text-align: left;
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  padding: 16px 20px 16px 0;
+  border-bottom: 2px solid var(--rule-strong);
+}
+
+.comparison-table td {
+  padding: 16px 20px 16px 0;
+  border-bottom: 1px solid var(--rule);
+  vertical-align: top;
+  font-variant-numeric: tabular-nums;
+}
+
+.comparison-table tbody tr:hover {
+  background: var(--bg-alt);
+}
+
+/* === Links === */
+a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-color: var(--accent-soft);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  transition: text-decoration-color 0.15s;
+}
+
+a:hover {
+  text-decoration-color: var(--accent);
+}
+
+/* === Citation marker === */
+sup.cite {
+  font-family: var(--sans);
+  font-size: 11px;
+  color: var(--accent);
+  vertical-align: super;
+  margin-left: 1px;
+  font-weight: 600;
+}
+
+/* === References === */
+.references {
+  margin-top: 96px;
+  padding-top: 40px;
+  border-top: 1px solid var(--rule-strong);
+}
+
+.references h3 {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text);
+  margin-bottom: 24px;
+}
+
+.references ol {
+  font-family: var(--sans);
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--text-muted);
+  padding-left: 32px;
+}
+
+.references li {
+  margin-bottom: 8px;
+}
+
+/* === Footer === */
+.footer {
+  margin-top: 80px;
+  padding-top: 24px;
+  border-top: 1px solid var(--rule);
+  font-family: var(--sans);
+  font-size: 12px;
+  color: var(--text-faint);
+  letter-spacing: 0.04em;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* === Responsive === */
+@media (max-width: 680px) {
+  body { padding: 40px 20px 80px; font-size: 16px; }
+  h1.title { font-size: 36px; }
+  .dek { font-size: 19px; }
+  h2.section-title { font-size: 26px; }
+  .item h3 { font-size: 19px; }
+  .hero-stat .number { font-size: 64px; }
+  .exec-summary { padding: 24px; }
+  .item { padding-left: 20px; }
+}
+
+/* === Print === */
+@media print {
+  body { padding: 20pt; font-size: 11pt; color: black; }
+  .no-print { display: none !important; }
+  h1.title { font-size: 28pt; }
+  .hero-stat .number { font-size: 48pt; color: black !important; }
+  h1, h2, h3 { page-break-after: avoid; }
+  .item, .comparison-table, .exec-summary { page-break-inside: avoid; }
+  .exec-summary { background: none !important; border: 1pt solid #ccc; }
+  a { color: black; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="brand">
+    <span>AI Frontier Watch</span>
+    <span class="brand-num">№ {{ISSUE_NUMBER}}</span>
+  </div>
+
+  <div class="doc-id">{{BRIEF_TYPE}} · {{DATE_HUMAN}}</div>
+
+  <h1 class="title">{{TITLE}}</h1>
+
+  <p class="dek">{{DEK}}</p>
+
+  <div class="meta-strip">
+    <div class="cell">
+      <div class="label">Issued</div>
+      <div class="val">{{DATE_ISO}}</div>
+    </div>
+    <div class="cell">
+      <div class="label">Window</div>
+      <div class="val">{{TIME_WINDOW}}</div>
+    </div>
+    <div class="cell">
+      <div class="label">Critical items</div>
+      <div class="val">{{CRITICAL_COUNT}}</div>
+    </div>
+    <div class="cell">
+      <div class="label">Next deadline</div>
+      <div class="val">{{NEXT_DEADLINE}}</div>
+    </div>
+  </div>
+
+  <!-- Hero stat (focal point - optional, use when 1 number tells the story) -->
+  <div class="hero-stat">
+    <div class="number">{{HERO_NUMBER}}<span class="number-suffix">{{HERO_SUFFIX}}</span></div>
+    <div class="number-label">{{HERO_LABEL}}</div>
+  </div>
+
+  <!-- Executive summary -->
+  <div class="exec-summary">
+    <h2>Executive summary</h2>
+    <ol>
+      {{TLDR_BULLETS}}
+    </ol>
+  </div>
+
+  <!-- Sections (repeat per category) -->
+  <section>
+    <div class="section-header">
+      <span class="num">§ 1</span>
+      <h2 class="section-title">{{SECTION_TITLE}}</h2>
+    </div>
+    <div class="section-rule"></div>
+
+    {{SECTION_CONTENT}}
+
+    <!-- Example item structure for skill to follow:
+    <div class="item critical">
+      <span class="priority-label">Critical · Model release</span>
+      <h3>{{ITEM_TITLE}}</h3>
+      <div class="item-meta">
+        Source: OpenAI official<span class="sep">·</span>
+        Date: 2026-04-23<span class="sep">·</span>
+        Confidence: 5/5
+      </div>
+      <p>{{SUMMARY}}<sup class="cite">1</sup></p>
+      <div class="deadline">
+        <span class="label">Deadline</span>
+        2026-08-02 — <span class="days">74 days from now</span>
+      </div>
+      <div class="action">
+        <span class="label">Recommended action</span>
+        <span class="role">{{ROLE}}:</span> {{ACTION_TEXT}}
+      </div>
+    </div>
+    -->
+  </section>
+
+  <!-- Consolidation table -->
+  <section>
+    <div class="section-header">
+      <span class="num">§ 99</span>
+      <h2 class="section-title">Actions, consolidated</h2>
+    </div>
+    <div class="section-rule"></div>
+
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th>Action</th>
+          <th>Role</th>
+          <th>Deadline</th>
+          <th>Priority</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{ACTION_TABLE_ROWS}}
+      </tbody>
+    </table>
+  </section>
+
+  <!-- References -->
+  <aside class="references">
+    <h3>References</h3>
+    <ol>
+      {{REFERENCES}}
+    </ol>
+  </aside>
+
+  <footer class="footer">
+    <div>AI Frontier Watch · Engineering Edition · Vietnam (ICT)</div>
+    <div>Generated {{TIMESTAMP}}</div>
+  </footer>
+
+</div>
+</body>
+</html>

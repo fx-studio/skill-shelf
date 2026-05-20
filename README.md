@@ -24,7 +24,7 @@ Skills here follow a rule: **small surface, real use, no ceremony.** If a skill 
 
 | Skill | What it does | When to reach for it |
 |---|---|---|
-| _(populate as you publish)_ | | |
+| [ai-frontier-watch](./skills/ai-frontier-watch) | Daily/weekly brief on AI frontier... | Khi cần track model release, paper, EU AI Act |
 
 Each skill folder is self-contained. Read its `SKILL.md` to see the trigger conditions, required inputs, and example outputs.
 
@@ -57,13 +57,16 @@ A few things I've learned building these:
 ### Claude Code
 
 ```bash
+# Clone the repo
+git clone https://github.com/<your-username>/skill-shelf.git
+
 # Project-scoped (recommended for team skills)
-mkdir -p .claude/skills/<skill-name>
-cp -r path/to/skill/* .claude/skills/<skill-name>/
+mkdir -p .claude/skills
+cp -r skill-shelf/skills/<skill-name> .claude/skills/
 
 # User-scoped (available across all your projects)
-mkdir -p ~/.claude/skills/<skill-name>
-cp -r path/to/skill/* ~/.claude/skills/<skill-name>/
+mkdir -p ~/.claude/skills
+cp -r skill-shelf/skills/<skill-name> ~/.claude/skills/
 ```
 
 Restart Claude Code and the skill is picked up.
@@ -71,6 +74,24 @@ Restart Claude Code and the skill is picked up.
 ### API / agent frameworks
 
 Skills are just folders with a `SKILL.md` at the root. Most agent frameworks let you load them as system context or as tools. Check the framework's docs for the loader pattern.
+
+---
+
+## Repo structure
+
+```
+skill-shelf/
+├── README.md
+├── LICENSE
+└── skills/             # All skills live here
+    ├── <skill-a>/
+    │   └── SKILL.md
+    ├── <skill-b>/
+    │   └── SKILL.md
+    └── ...
+```
+
+One folder per skill under `skills/`. Each skill is self-contained — clone the repo, copy the folder you want into your Claude skills directory, done.
 
 ---
 
@@ -196,13 +217,16 @@ Vài điều rút ra khi build mấy cái này:
 ### Claude Code
 
 ```bash
+# Clone repo
+git clone https://github.com/<your-username>/skill-shelf.git
+
 # Scope project (recommended cho team skill)
-mkdir -p .claude/skills/<skill-name>
-cp -r path/to/skill/* .claude/skills/<skill-name>/
+mkdir -p .claude/skills
+cp -r skill-shelf/skills/<skill-name> .claude/skills/
 
 # Scope user (dùng được cho mọi project của bạn)
-mkdir -p ~/.claude/skills/<skill-name>
-cp -r path/to/skill/* ~/.claude/skills/<skill-name>/
+mkdir -p ~/.claude/skills
+cp -r skill-shelf/skills/<skill-name> ~/.claude/skills/
 ```
 
 Khởi động lại Claude Code, skill được pick up.
@@ -210,6 +234,24 @@ Khởi động lại Claude Code, skill được pick up.
 ### API / agent framework
 
 Skill chỉ là thư mục có `SKILL.md` ở root. Hầu hết agent framework cho phép load như system context hoặc tool. Đọc docs của framework để biết loader pattern.
+
+---
+
+## Cấu trúc repo
+
+```
+skill-shelf/
+├── README.md
+├── LICENSE
+└── skills/             # Tất cả skill nằm ở đây
+    ├── <skill-a>/
+    │   └── SKILL.md
+    ├── <skill-b>/
+    │   └── SKILL.md
+    └── ...
+```
+
+Một thư mục cho một skill, đặt dưới `skills/`. Mỗi skill là self-contained — clone repo, copy thư mục bạn cần vào Claude skills directory, xong.
 
 ---
 
