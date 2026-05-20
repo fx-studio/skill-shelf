@@ -182,9 +182,9 @@ Skill trong repo này tuân theo một quy tắc: **bề mặt hẹp, dùng đư
 
 > Skill được sắp xếp theo *việc giúp bạn làm gì*, không theo *được build trên cái gì*.
 
-| Skill | Nó làm gì | Khi nào với tới |
+| Skill | What it does | When to reach for it |
 |---|---|---|
-| _(điền dần khi publish)_ | | |
+| [ai-frontier-watch](./skills/ai-frontier-watch) | Daily/weekly brief on AI frontier... | Khi cần track model release, paper, EU AI Act |
 
 Mỗi thư mục skill là self-contained. Đọc `SKILL.md` của nó để xem trigger condition, input cần có, và ví dụ output.
 
