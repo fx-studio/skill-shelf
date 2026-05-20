@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{TITLE}} — AI Frontier Watch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Source Serif 4 + IBM Plex Sans: characterful, non-default pairing -->
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,800;1,8..60,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* === EDITORIAL THEME — Stratechery / FT Weekend inspired === */
+
+:root {
+  --bg: #FAF7F2;
+  --bg-alt: #F4EFE6;
+  --ink: #1A1814;
+  --ink-muted: #5A5247;
+  --ink-faint: #8B8275;
+  --rule: #D4CBB8;
+  --accent: #0E4D5A;
+  --accent-soft: #B8D4DA;
+  --serif: 'Source Serif 4', Georgia, serif;
+  --sans: 'IBM Plex Sans', system-ui, sans-serif;
+  --mono: 'IBM Plex Mono', monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 18px;
+  line-height: 1.65;
+  font-feature-settings: 'kern', 'liga', 'onum';
+  -webkit-font-smoothing: antialiased;
+  padding: 64px 24px 96px;
+}
+
+.container {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+/* === Masthead === */
+.masthead {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-bottom: 24px;
+  border-bottom: 2px solid var(--ink);
+  margin-bottom: 56px;
+  font-family: var(--sans);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+.masthead .brand {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.masthead .meta {
+  font-variant-numeric: tabular-nums;
+}
+
+/* === Eyebrow (category label) === */
+.eyebrow {
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 16px;
+}
+
+/* === Title === */
+.title {
+  font-family: var(--serif);
+  font-size: 56px;
+  line-height: 1.05;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 24px;
+  max-width: 18ch;
+}
+
+.dek {
+  font-family: var(--serif);
+  font-size: 22px;
+  line-height: 1.45;
+  font-style: italic;
+  color: var(--ink-muted);
+  margin-bottom: 56px;
+  max-width: 34ch;
+}
+
+/* === Byline === */
+.byline {
+  font-family: var(--sans);
+  font-size: 13px;
+  color: var(--ink-muted);
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 48px;
+}
+
+/* === TL;DR === */
+.tldr {
+  background: var(--bg-alt);
+  padding: 28px 32px;
+  margin: 0 -16px 56px;
+  border-left: 3px solid var(--accent);
+}
+
+.tldr h2 {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 16px;
+}
+
+.tldr ul {
+  list-style: none;
+  font-family: var(--serif);
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+.tldr li {
+  padding: 8px 0 8px 20px;
+  position: relative;
+}
+
+.tldr li::before {
+  content: '◆';
+  position: absolute;
+  left: 0;
+  top: 11px;
+  font-size: 9px;
+  color: var(--accent);
+}
+
+/* === Section === */
+section {
+  margin-bottom: 64px;
+}
+
+.section-header {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 32px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.section-number {
+  font-family: var(--mono);
+  font-size: 14px;
+  color: var(--ink-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+h2.section-title {
+  font-family: var(--serif);
+  font-size: 32px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+/* === Drop cap (first paragraph of major section) === */
+.has-dropcap > p:first-of-type::first-letter {
+  font-family: var(--serif);
+  font-size: 76px;
+  font-weight: 800;
+  float: left;
+  line-height: 0.85;
+  margin: 8px 12px 0 0;
+  color: var(--accent);
+}
+
+p {
+  margin-bottom: 20px;
+  hyphens: auto;
+}
+
+/* === Item card === */
+.item {
+  margin-bottom: 40px;
+  padding-bottom: 32px;
+  border-bottom: 1px dashed var(--rule);
+}
+
+.item:last-child {
+  border-bottom: none;
+}
+
+.item-header {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.item h3 {
+  font-family: var(--serif);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--ink);
+  margin-bottom: 12px;
+}
+
+/* === Tag chips === */
+.tag {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border: 1px solid var(--rule);
+  color: var(--ink-muted);
+  border-radius: 2px;
+}
+
+.tag.critical {
+  background: #722F37;
+  color: #FAF7F2;
+  border-color: #722F37;
+}
+
+.tag.high {
+  background: var(--accent);
+  color: #FAF7F2;
+  border-color: var(--accent);
+}
+
+.tag.medium {
+  background: transparent;
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+/* === Metadata row === */
+.item-meta {
+  font-family: var(--sans);
+  font-size: 13px;
+  color: var(--ink-faint);
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.item-meta strong {
+  color: var(--ink-muted);
+  font-weight: 500;
+}
+
+/* === Deadline highlight === */
+.deadline {
+  background: #FFF1E0;
+  border-left: 3px solid #C7711B;
+  padding: 12px 16px;
+  font-family: var(--sans);
+  font-size: 14px;
+  margin: 12px 0;
+}
+
+.deadline strong {
+  color: #8C4A0E;
+  font-variant-numeric: tabular-nums;
+}
+
+/* === Pull quote === */
+.pull-quote {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 26px;
+  line-height: 1.35;
+  color: var(--accent);
+  margin: 40px -16px;
+  padding: 0 32px;
+  border-left: 4px solid var(--accent);
+  max-width: 28ch;
+}
+
+/* === Action table === */
+.action-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--sans);
+  font-size: 14px;
+  margin-top: 24px;
+}
+
+.action-table th {
+  text-align: left;
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  padding: 12px 16px 12px 0;
+  border-bottom: 2px solid var(--ink);
+}
+
+.action-table td {
+  padding: 14px 16px 14px 0;
+  border-bottom: 1px solid var(--rule);
+  vertical-align: top;
+  font-variant-numeric: tabular-nums;
+}
+
+.action-table .role {
+  font-weight: 500;
+  color: var(--accent);
+}
+
+/* === Inline citation === */
+sup.cite {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--accent);
+  vertical-align: super;
+  margin-left: 2px;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid var(--accent-soft);
+  transition: border-color 0.15s;
+}
+
+a:hover {
+  border-bottom-color: var(--accent);
+}
+
+/* === Footnotes === */
+.footnotes {
+  margin-top: 96px;
+  padding-top: 32px;
+  border-top: 2px solid var(--ink);
+  font-family: var(--sans);
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--ink-muted);
+}
+
+.footnotes h3 {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin-bottom: 16px;
+}
+
+.footnotes ol {
+  padding-left: 24px;
+}
+
+.footnotes li {
+  margin-bottom: 10px;
+}
+
+/* === Colophon === */
+.colophon {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--rule);
+  font-family: var(--sans);
+  font-size: 12px;
+  color: var(--ink-faint);
+  text-align: center;
+  letter-spacing: 0.04em;
+}
+
+.colophon .ornament {
+  font-family: var(--serif);
+  font-size: 16px;
+  color: var(--accent);
+  margin: 0 8px;
+}
+
+/* === Responsive === */
+@media (max-width: 720px) {
+  body { padding: 32px 16px 64px; }
+  .title { font-size: 38px; }
+  .dek { font-size: 19px; }
+  h2.section-title { font-size: 26px; }
+  .item h3 { font-size: 20px; }
+  .tldr { margin: 0 0 40px; padding: 24px; }
+  .pull-quote { margin: 32px 0; padding: 0 20px; font-size: 22px; }
+}
+
+/* === Print === */
+@media print {
+  body { background: white !important; color: black !important; padding: 24pt; font-size: 11pt; }
+  .no-print { display: none !important; }
+  a { color: black; }
+  .title { font-size: 28pt; }
+  .tldr { background: #f5f5f5 !important; border-left: 2pt solid black; }
+  .deadline { background: #f5f5f5 !important; }
+  h2.section-title, .item h3 { page-break-after: avoid; }
+  .item, table { page-break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header class="masthead">
+    <div class="brand">AI Frontier Watch</div>
+    <div class="meta">{{ISSUE_NUMBER}} · {{DATE}}</div>
+  </header>
+
+  <article>
+
+    <div class="eyebrow">{{CATEGORY}}</div>
+    <h1 class="title">{{TITLE}}</h1>
+    <p class="dek">{{DEK}}</p>
+
+    <div class="byline">
+      Editorial brief · {{AUTHOR}} · {{READ_TIME}} min read
+    </div>
+
+    <!-- TL;DR -->
+    <div class="tldr">
+      <h2>What matters this issue</h2>
+      <ul>
+        {{TLDR_BULLETS}}
+      </ul>
+    </div>
+
+    <!-- Main sections — repeat per section -->
+    <section class="has-dropcap">
+      <header class="section-header">
+        <span class="section-number">01</span>
+        <h2 class="section-title">{{SECTION_1_TITLE}}</h2>
+      </header>
+
+      {{SECTION_1_CONTENT}}
+      <!-- items go here with .item wrapper -->
+    </section>
+
+    <!-- Example item structure (for skill to follow) -->
+    <!--
+    <div class="item">
+      <div class="item-header">
+        <span class="tag critical">Critical</span>
+        <span class="tag">Model release</span>
+      </div>
+      <h3>{{ITEM_TITLE}}</h3>
+      <div class="item-meta">
+        <span><strong>Source</strong> Tier 1 · openai.com</span>
+        <span><strong>Date</strong> 2026-04-23</span>
+        <span><strong>R</strong>5 <strong>I</strong>5 <strong>C</strong>5</span>
+      </div>
+      <p>{{ITEM_SUMMARY}}<sup class="cite">1</sup></p>
+      <div class="deadline">
+        <strong>Deadline:</strong> {{DATE}} · {{DAYS_FROM_NOW}} days from now
+      </div>
+      <p><strong>Recommended action</strong> — {{ROLE}}: {{ACTION}}</p>
+    </div>
+    -->
+
+    <!-- Action consolidation -->
+    <section>
+      <header class="section-header">
+        <span class="section-number">99</span>
+        <h2 class="section-title">Action items, consolidated</h2>
+      </header>
+
+      <table class="action-table">
+        <thead>
+          <tr>
+            <th style="width: 40%">Action</th>
+            <th style="width: 20%">Role</th>
+            <th style="width: 20%">Deadline</th>
+            <th style="width: 20%">Priority</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{ACTION_TABLE_ROWS}}
+        </tbody>
+      </table>
+    </section>
+
+  </article>
+
+  <!-- Footnotes -->
+  <aside class="footnotes">
+    <h3>Sources &amp; further reading</h3>
+    <ol>
+      {{FOOTNOTES}}
+    </ol>
+  </aside>
+
+  <footer class="colophon">
+    <span class="ornament">❦</span>
+    AI Frontier Watch · Generated {{TIMESTAMP}} · Vietnam Engineering Edition
+    <span class="ornament">❦</span>
+  </footer>
+
+</div>
+</body>
+</html>

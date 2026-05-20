@@ -1,0 +1,91 @@
+/*
+  AI Frontier Watch — Shared Theme Tokens
+  Reference CSS variables used across 3 themes. Mode B templates import these.
+  Mode A (Creative) can pick from these or design fresh.
+*/
+
+:root {
+  /* === Typography === */
+  --font-serif-display: 'Source Serif 4', 'GT Sectra', 'Tiempos Headline', Georgia, serif;
+  --font-serif-body: 'Source Serif 4', 'Tiempos Text', Georgia, serif;
+  --font-sans-display: 'Söhne', 'IBM Plex Sans', 'National 2', system-ui, sans-serif;
+  --font-sans-body: 'IBM Plex Sans', 'Söhne', 'National 2', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'IBM Plex Mono', 'Berkeley Mono', 'Iosevka', monospace;
+
+  /* === Editorial palette === */
+  --editorial-bg: #FAF7F2;
+  --editorial-bg-alt: #F4EFE6;
+  --editorial-ink: #1A1814;
+  --editorial-ink-muted: #5A5247;
+  --editorial-rule: #D4CBB8;
+  --editorial-accent: #0E4D5A;        /* deep teal */
+  --editorial-accent-soft: #B8D4DA;
+
+  /* === Terminal palette === */
+  --terminal-bg: #0D1117;
+  --terminal-bg-alt: #161B22;
+  --terminal-fg: #C0CAF5;
+  --terminal-fg-muted: #565F89;
+  --terminal-green: #9ECE6A;
+  --terminal-amber: #E0AF68;
+  --terminal-cyan: #7DCFFF;
+  --terminal-red: #F7768E;
+  --terminal-magenta: #BB9AF7;
+  --terminal-rule: #30363D;
+
+  /* === Sober palette === */
+  --sober-bg: #FFFFFF;
+  --sober-bg-alt: #FAFAFA;
+  --sober-text: #0A0A0A;
+  --sober-text-muted: #525252;
+  --sober-rule: #E5E5E5;
+  --sober-accent: #1B4332;            /* forest */
+  --sober-accent-soft: #D7E4DC;
+
+  /* === Spacing scale === */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+
+  /* === Type scale === */
+  --text-xs: 12px;
+  --text-sm: 14px;
+  --text-base: 16px;
+  --text-md: 18px;
+  --text-lg: 22px;
+  --text-xl: 28px;
+  --text-2xl: 36px;
+  --text-3xl: 48px;
+  --text-4xl: 64px;
+  --text-display: 88px;
+
+  /* === Common === */
+  --max-width-content: 760px;
+  --max-width-wide: 1020px;
+  --radius-sm: 2px;
+  --radius-md: 4px;
+}
+
+/* === Print baseline === */
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  .no-print { display: none !important; }
+  a { color: black; text-decoration: underline; }
+  a[href]:after {
+    content: " (" attr(href) ")";
+    font-size: 0.7em;
+    color: #666;
+  }
+  /* Avoid orphans/widows */
+  h1, h2, h3 { page-break-after: avoid; }
+  table, figure { page-break-inside: avoid; }
+}
