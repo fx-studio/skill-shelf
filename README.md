@@ -25,6 +25,7 @@ Skills here follow a rule: **small surface, real use, no ceremony.** If a skill 
 | Skill | What it does | When to reach for it |
 |---|---|---|
 | [ai-frontier-watch](./skills/ai-frontier-watch) | Daily/weekly brief on AI frontier... | Khi cần track model release, paper, EU AI Act |
+| [tui-code](./skills/tui-code) | Disciplined code-gen: auto-picks a 5-rung rigor level (TRIVIAL→SPEC) to decide planning depth and leave readable traces | Bất cứ khi viết/thêm/sửa/refactor code — để hôm sau đọc vẫn hiểu, và không code trước khi hiểu đề |
 
 Each skill folder is self-contained. Read its `SKILL.md` to see the trigger conditions, required inputs, and example outputs.
 
@@ -185,6 +186,7 @@ Skill trong repo này tuân theo một quy tắc: **bề mặt hẹp, dùng đư
 | Skill | What it does | When to reach for it |
 |---|---|---|
 | [ai-frontier-watch](./skills/ai-frontier-watch) | Daily/weekly brief on AI frontier... | Khi cần track model release, paper, EU AI Act |
+| [tui-code](./skills/tui-code) | Quy trình sinh code có kỷ luật: tự xếp 5 nấc rigor (TRIVIAL→SPEC) để quyết độ sâu lập plan và luôn để lại dấu vết dễ đọc | Bất cứ khi viết/thêm/sửa/refactor code — để hôm sau đọc vẫn hiểu, và không code trước khi hiểu đề |
 
 Mỗi thư mục skill là self-contained. Đọc `SKILL.md` của nó để xem trigger condition, input cần có, và ví dụ output.
 
